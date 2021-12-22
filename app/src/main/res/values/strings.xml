@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Game 2048</string>
+    <string name="max">MAX</string>
+    <string name="point">POINT</string>
+    <string name="newGame">New Game</string>
+    <string name="undo">Undo</string>
+</resources>

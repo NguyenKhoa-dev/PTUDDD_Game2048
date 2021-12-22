@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="brown">#c6a764</color>
+    <color name="skin">#DC8558</color>
+
+    <array name="mau_nen_cua_so">
+        <item>#EEE4DA</item>
+        <item>#EEE0C8</item>
+        <item>#F59563</item>
+        <item>#DC8558</item>
+        <item>#F67C5F</item>
+        <item>#F65E3B</item>
+        <item>#FDDE7B</item>
+        <item>#E7CA70</item>
+        <item>#E9C12B</item>
+        <item>#E3BA14</item>
+        <item>#EDC501</item>
+        <item>#60D992</item>
+    </array>
+</resources>
