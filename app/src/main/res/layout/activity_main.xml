@@ -111,11 +111,11 @@
         android:padding="10dp">
 
         <GridView
+            android:id="@+id/gdvGamePlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/gdvGamePlay"
-            android:numColumns="4"
-            android:background="@drawable/gb_nen_mau_nau">
+            android:background="@drawable/gb_nen_mau_nau"
+            android:numColumns="4">
 
         </GridView>
 
