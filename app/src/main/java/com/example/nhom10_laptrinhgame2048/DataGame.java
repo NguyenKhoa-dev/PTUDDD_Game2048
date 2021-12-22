@@ -28,6 +28,7 @@ public class DataGame {
     }
 
     public void init(Context context) {
+        arrSo.clear();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 matrix[i][j] = 0;
@@ -40,6 +41,7 @@ public class DataGame {
             mangMau[i]=ta.getColor(i, 0);
         }
         ta.recycle();
+
         taoSo();
         chuyenDoi();
         point = 0;
@@ -326,5 +328,27 @@ public class DataGame {
             checkSwap = false;
         }
         chuyenDoi();
+    }
+
+    public boolean checkGameOver() {
+        if(arrSo.contains(0)){
+            return true;
+        }else{
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix.length; j++) {
+                    if(0<=i && i < matrix.length-1){
+                        if(matrix[i][j]==matrix[i+1][j]){
+                            return true;
+                        }
+                    }
+                    if(0<=j&&j<matrix.length-1){
+                        if(matrix[i][j]==matrix[i][j+1]){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

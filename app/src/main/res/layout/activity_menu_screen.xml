@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuScreenActivity"
+    android:orientation="vertical"
+    android:weightSum="3"
+    android:background="@color/brown">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Game"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:textAllCaps="true"
+            tools:ignore="NestedWeights"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2048"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:textSize="80sp"
+            android:textAllCaps="true"
+            tools:ignore="NestedWeights"
+            android:textColor="@color/white"
+            android:shadowColor="@color/yellow"
+            android:shadowDx="10"
+            android:shadowDy="10"
+            android:shadowRadius="10"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="20dp">
+
+        <Button
+            android:id="@+id/btnClassic"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:text="Play Classic"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/brown"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"
+            tools:targetApi="lollipop" />
+
+        <Button
+            android:id="@+id/btnCustome"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:text="Play Custome"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/brown"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"
+            tools:targetApi="lollipop" />
+
+        <Button
+            android:id="@+id/btnViewPoint"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:text="View Max Point"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/brown"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"
+            tools:targetApi="lollipop" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:gravity="bottom">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nhom10_LapTrinhGame2048_CTK43-PM"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:textColor="@color/white"
+            android:paddingVertical="10dp"/>
+    </LinearLayout>
+</LinearLayout>

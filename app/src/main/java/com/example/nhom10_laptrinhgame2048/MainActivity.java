@@ -1,5 +1,6 @@
 package com.example.nhom10_laptrinhgame2048;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -8,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private GridView grdvGamePlay;
@@ -68,11 +70,20 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         setPointAndMax();
+                        if(DataGame.getDataGame().checkGameOver() == false){
+                            Toast.makeText(MainActivity.this, "Game Over\nScore : "+DataGame.getDataGame().getPoint(), Toast.LENGTH_LONG).show();
+                        }
                         break;
                 }
                 return true;
             }
         };
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     @SuppressLint("ClickableViewAccessibility")
