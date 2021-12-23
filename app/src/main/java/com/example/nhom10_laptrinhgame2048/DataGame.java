@@ -3,17 +3,22 @@ package com.example.nhom10_laptrinhgame2048;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
 public class DataGame {
-    private int size = 4;
+    private int size;
     private boolean checkSum = true, checkSwap = false;
     private static DataGame dataGame;
     private ArrayList<Integer> arrSo = new ArrayList<>();
-    private int[][] matrix = new int[size][size];
+    private int[][] matrix;
+    private int[][] undoMatrix;
     private int[] mangMau;
     private Random r = new Random();
     private int point;
@@ -28,6 +33,8 @@ public class DataGame {
     }
 
     public void init(Context context) {
+        matrix = new int[size][size];
+        undoMatrix = new int[size][size];
         arrSo.clear();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -61,12 +68,35 @@ public class DataGame {
         }
     }
 
+    public int[][] getMatrix(){
+        return this.matrix;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void saveUndo(int[][] matrix){
+        this.undoMatrix = Arrays.stream(matrix).map(int[]::clone).toArray(int[][]::new);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void getUndo(){
+        this.matrix = Arrays.stream(this.undoMatrix).map(int[]::clone).toArray(int[][]::new);
+        chuyenDoi();
+    }
+
     public int getPoint() {
         return point;
     }
 
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
     public int getMax() {
         return Collections.max(arrSo);
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public void taoSo() {

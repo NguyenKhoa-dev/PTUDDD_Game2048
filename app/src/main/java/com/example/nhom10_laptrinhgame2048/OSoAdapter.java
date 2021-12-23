@@ -15,11 +15,13 @@ import java.util.List;
 public class OSoAdapter extends ArrayAdapter<Integer> {
     private Context context;
     private ArrayList<Integer> arr;
+    private int soCot;
 
-    public OSoAdapter(@NonNull Context context, int resource, @NonNull List<Integer> objects) {
+    public OSoAdapter(@NonNull Context context, int resource, @NonNull List<Integer> objects, int soCot) {
         super(context, resource, objects);
         this.context = context;
         this.arr = new ArrayList<>(objects);
+        this.soCot = soCot;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class OSoAdapter extends ArrayAdapter<Integer> {
 
         if (arr.size() > 0) {
             OVuong o = convertView.findViewById(R.id.txtOVuong);
-            o.TextFormat(arr.get(position));
+            o.TextFormat(arr.get(position), soCot);
         }
         return convertView;
     }

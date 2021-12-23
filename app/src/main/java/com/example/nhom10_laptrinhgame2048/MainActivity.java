@@ -1,23 +1,39 @@
 package com.example.nhom10_laptrinhgame2048;
 
-import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private GridView grdvGamePlay;
     private TextView txtMax, txtPoint;
     private OSoAdapter adapter;
+    private Button btnNewGame, btnUndo;
 
-    private View.OnTouchListener listener;
+    private View.OnTouchListener touchListener;
+    private View.OnClickListener clickListener;
+
     private float xTouch, yTouch;
+    private int tempMax = 0;
+    private final int soCot = 3;
+    private boolean checkIsTouch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +48,18 @@ public class MainActivity extends AppCompatActivity {
         grdvGamePlay = findViewById(R.id.gdvGamePlay);
         txtMax = findViewById(R.id.txtMax);
         txtPoint = findViewById(R.id.txtPoint);
+        btnNewGame = findViewById(R.id.btnNewGame);
+        btnUndo = findViewById(R.id.btnUndo);
     }
 
     private void initGame() {
+        DataGame.getDataGame().setSize(soCot);
         DataGame.getDataGame().init(MainActivity.this);
-        adapter = new OSoAdapter(MainActivity.this, 0, DataGame.getDataGame().getArrSo());
+        adapter = new OSoAdapter(MainActivity.this, 0, DataGame.getDataGame().getArrSo(), soCot);
         setPointAndMax();
 
-        listener = new View.OnTouchListener() {
+        touchListener = new View.OnTouchListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -49,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
                         yTouch = motionEvent.getY();
                         break;
                     case MotionEvent.ACTION_UP:
+                        int[][] matrix = DataGame.getDataGame().getMatrix();
+                        DataGame.getDataGame().saveUndo(matrix);
                         if (Math.abs(motionEvent.getX() - xTouch) > Math.abs(motionEvent.getY() - yTouch)) {
                             if (motionEvent.getX() < xTouch) {
                                 DataGame.getDataGame().vuotTrai();
@@ -69,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                                 adapter.notifyDataSetChanged();
                             }
                         }
+                        checkIsTouch = true;
                         setPointAndMax();
                         if(DataGame.getDataGame().checkGameOver() == false){
                             Toast.makeText(MainActivity.this, "Game Over\nScore : "+DataGame.getDataGame().getPoint(), Toast.LENGTH_LONG).show();
@@ -78,24 +101,90 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         };
-    }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        clickListener = new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                ArrayList arr = new ArrayList();
+                if(v==btnNewGame){
+                    DataGame.getDataGame().init(MainActivity.this);
+                    arr = DataGame.getDataGame().getArrSo();
+                }
+                else if(v==btnUndo&&checkIsTouch){
+                    int point = DataGame.getDataGame().getPoint();
+                    if(point >100){
+                        DataGame.getDataGame().getUndo();
+                        arr = DataGame.getDataGame().getArrSo();
+                        point-=100;
+                        DataGame.getDataGame().setPoint(point);
+                        checkIsTouch = false;
+                    }
+                    else {
+                        return;
+                    }
+                }else{
+                    return;
+                }
+                adapter = new OSoAdapter(MainActivity.this, 0, arr, soCot);
+                adapter.notifyDataSetChanged();
+                grdvGamePlay.setAdapter(adapter);
+                setPointAndMax();
+            }
+        };
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void setData() {
+        grdvGamePlay.setNumColumns(soCot);
         grdvGamePlay.setAdapter(adapter);
-        grdvGamePlay.setOnTouchListener(listener);
+        grdvGamePlay.setOnTouchListener(touchListener);
+        btnNewGame.setOnClickListener(clickListener);
+        btnUndo.setOnClickListener(clickListener);
     }
 
     private void setPointAndMax() {
         int point = DataGame.getDataGame().getPoint();
         int max = DataGame.getDataGame().getMax();
+
         txtPoint.setText("" + point);
         txtMax.setText("" + max);
+
+        if (tempMax < max && max > 200) {
+            showMilestoneDialog(max);
+            tempMax = max;
+        }
+    }
+
+    private void showMilestoneDialog(int MaxPoint) {
+        final Dialog dlg = new Dialog(MainActivity.this);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg.setContentView(R.layout.dialog_achievement_layout);
+        dlg.setCancelable(false);
+
+        Window window = dlg.getWindow();
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttribute = window.getAttributes();
+        windowAttribute.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttribute);
+
+        TextView txtMaxPoint = dlg.findViewById(R.id.txtMaxPointAchievement);
+        Button btnContinue = dlg.findViewById(R.id.btnContinue);
+
+        txtMaxPoint.setText("" + MaxPoint);
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlg.dismiss();
+            }
+        });
+
+        dlg.show();
     }
 }

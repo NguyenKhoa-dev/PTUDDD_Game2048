@@ -7,5 +7,6 @@
     <string name="lyName">1911169_Võ Công Lý</string>
     <string name="longName">1911164_Võ Đình Hoàng Long</string>
     <string name="khoaName">1911158_Nguyễn Hoàng Đăng Khoa</string>
-
+    <string name="milestone">New milestone reached!</string>
+    <string name="btnContinue">Continue</string>
 </resources>
