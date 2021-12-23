@@ -47,6 +47,10 @@ public class DataGame {
         chuyenDoi();
     }
 
+    public void setPoint(int point){
+        this.point = point;
+    }
+
     public void init(Context context) {
         arrSo.clear();
         for (int i = 0; i < size; i++) {
@@ -153,7 +157,6 @@ public class DataGame {
                 }
             }
         }
-
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 int so = matrix[i][j];
@@ -348,4 +351,5 @@ public class DataGame {
         }
         chuyenDoi();
     }
+
 }

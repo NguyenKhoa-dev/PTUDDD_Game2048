@@ -4,4 +4,5 @@
     <string name="point">POINT</string>
     <string name="newGame">New Game</string>
     <string name="undo">Undo</string>
+    <string name="pause">Pause</string>
 </resources>
