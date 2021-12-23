@@ -8,7 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="brown">#c6a764</color>
+    <color name="light_brown">#FFC107</color>
     <color name="skin">#DC8558</color>
+    <color name="yellow">#EDC501</color>
 
     <array name="mau_nen_cua_so">
         <item>#EEE4DA</item>
@@ -23,5 +25,8 @@
         <item>#E3BA14</item>
         <item>#EDC501</item>
         <item>#60D992</item>
+        <item>#9576E8</item>
+        <item>#41315C</item>
+        <item>#274534</item>
     </array>
 </resources>

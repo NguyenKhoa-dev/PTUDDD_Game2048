@@ -36,15 +36,15 @@ public class OVuong extends TextView {
         super.setText(text, type);
     }
 
-    public void TextFormat(int so) {
+    public void TextFormat(int so, int soCot) {
         if (so < 100) {
-            setTextSize(40);
+            setTextSize((4 * 40) / soCot);
         }
         else if (so < 1000) {
-            setTextSize(35);
+            setTextSize((4 * 35) / soCot);
         }
         else {
-            setTextSize(30);
+            setTextSize((4 * 30) / soCot);
         }
         if (so > 8) {
             setTextColor(Color.WHITE);
@@ -55,7 +55,6 @@ public class OVuong extends TextView {
         GradientDrawable drawable = (GradientDrawable)this.getBackground();
         drawable.setColor(DataGame.getDataGame().colorr(so));
         setBackground(drawable);
-
         if (so == 0) {
             setText(" ");
         }

@@ -13,12 +13,12 @@ import java.util.Collections;
 import java.util.Random;
 
 public class DataGame {
-    private int size = 4;
+    private int size;
     private boolean checkSum = true, checkSwap = false;
     private static DataGame dataGame;
     private ArrayList<Integer> arrSo = new ArrayList<>();
-    private int[][] matrix = new int[size][size];
-    private int[][] undoMatrix = new int[size][size];
+    private int[][] matrix;
+    private int[][] undoMatrix;
     private int[] mangMau;
     private Random r = new Random();
     private int point;
@@ -32,26 +32,9 @@ public class DataGame {
         return dataGame;
     }
 
-    public int[][] getMatrix(){
-        return this.matrix;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void saveUndo(int matrix[][]){
-        this.undoMatrix = Arrays.stream(matrix).map(int[]::clone).toArray(int[][]::new);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void getUndo(){
-        this.matrix = Arrays.stream(this.undoMatrix).map(int[]::clone).toArray(int[][]::new);
-        chuyenDoi();
-    }
-
-    public void setPoint(int point){
-        this.point = point;
-    }
-
     public void init(Context context) {
+        matrix = new int[size][size];
+        undoMatrix = new int[size][size];
         arrSo.clear();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -65,6 +48,7 @@ public class DataGame {
             mangMau[i]=ta.getColor(i, 0);
         }
         ta.recycle();
+
         taoSo();
         chuyenDoi();
         point = 0;
@@ -84,12 +68,35 @@ public class DataGame {
         }
     }
 
+    public int[][] getMatrix(){
+        return this.matrix;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void saveUndo(int[][] matrix){
+        this.undoMatrix = Arrays.stream(matrix).map(int[]::clone).toArray(int[][]::new);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void getUndo(){
+        this.matrix = Arrays.stream(this.undoMatrix).map(int[]::clone).toArray(int[][]::new);
+        chuyenDoi();
+    }
+
     public int getPoint() {
         return point;
     }
 
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
     public int getMax() {
         return Collections.max(arrSo);
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public void taoSo() {
@@ -352,4 +359,25 @@ public class DataGame {
         chuyenDoi();
     }
 
+    public boolean checkGameOver() {
+        if(arrSo.contains(0)){
+            return true;
+        }else{
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix.length; j++) {
+                    if(0<=i && i < matrix.length-1){
+                        if(matrix[i][j]==matrix[i+1][j]){
+                            return true;
+                        }
+                    }
+                    if(0<=j&&j<matrix.length-1){
+                        if(matrix[i][j]==matrix[i][j+1]){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

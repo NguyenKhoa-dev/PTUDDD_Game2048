@@ -9,33 +9,46 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
     private GridView grdvGamePlay;
     private TextView txtMax, txtPoint, txtCountDown;
     private OSoAdapter adapter;
-    private Button btnNewGame,btnUndo,btnPause;
-    private int point;
-    private int max;
-    private View.OnTouchListener touchListener;
-    private View.OnClickListener clickListener;
-    private float xTouch, yTouch;
     private CountDownTimer countDownTimer;
     private boolean timerRunning,checkIsTouch=false;
     private long time = 60000; //1 minute
+    private Button btnNewGame, btnUndo,btnPause;
+    private View.OnTouchListener touchListener;
+    private View.OnClickListener clickListener;
+    private SQLiteHelper helper;
+    private float xTouch, yTouch;
+    private int tempMax = 0;
+    private final int soCot = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initDatabase();
         initControls();
         initGame();
         setData();
+    }
+
+    private void initDatabase(){
+        helper = new SQLiteHelper(this);
     }
 
     private void initControls() {
@@ -49,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initGame() {
+        DataGame.getDataGame().setSize(soCot);
         DataGame.getDataGame().init(MainActivity.this);
-        adapter = new OSoAdapter(MainActivity.this, 0, DataGame.getDataGame().getArrSo());
+        adapter = new OSoAdapter(MainActivity.this, 0, DataGame.getDataGame().getArrSo(), soCot);
         setPointAndMax();
 
         touchListener = new View.OnTouchListener() {
@@ -64,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         yTouch = motionEvent.getY();
                         break;
                     case MotionEvent.ACTION_UP:
-                        int matrix[][] = DataGame.getDataGame().getMatrix();
+                        int[][] matrix = DataGame.getDataGame().getMatrix();
                         DataGame.getDataGame().saveUndo(matrix);
                         if (Math.abs(motionEvent.getX() - xTouch) > Math.abs(motionEvent.getY() - yTouch)) {
                             if (motionEvent.getX() < xTouch) {
@@ -88,7 +102,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                         checkIsTouch = true;
                         setPointAndMax();
-//                        startStop();
+                        if(DataGame.getDataGame().checkGameOver() == false){
+                            int point = DataGame.getDataGame().getPoint();
+                            Toast.makeText(MainActivity.this, "Game Over\nScore : "+point, Toast.LENGTH_LONG).show();
+                            GameScore gameScore = new GameScore("SIZE "+soCot,point);
+                            helper.insert(gameScore);
+                        }
                         break;
                 }
                 return true;
@@ -100,22 +119,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ArrayList arr = new ArrayList();
-                if(v== btnNewGame){
+                if(v==btnNewGame){
                     DataGame.getDataGame().init(MainActivity.this);
                     arr = DataGame.getDataGame().getArrSo();
                 }
                 else if(v==btnUndo&&checkIsTouch){
-                    if(point>100){
+                    int point = DataGame.getDataGame().getPoint();
+                    if(point >100){
                         DataGame.getDataGame().getUndo();
                         arr = DataGame.getDataGame().getArrSo();
                         point-=100;
                         DataGame.getDataGame().setPoint(point);
                         checkIsTouch = false;
                     }
+                    else {
+                        return;
+                    }
                 }else{
                     return;
                 }
-                adapter = new OSoAdapter(MainActivity.this, 0, arr);
+                adapter = new OSoAdapter(MainActivity.this, 0, arr, soCot);
                 adapter.notifyDataSetChanged();
                 grdvGamePlay.setAdapter(adapter);
                 setPointAndMax();
@@ -154,22 +177,58 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateTime() {
         int minute = (int)time/6000;
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void setData() {
+        grdvGamePlay.setNumColumns(soCot);
         grdvGamePlay.setAdapter(adapter);
         grdvGamePlay.setOnTouchListener(touchListener);
         btnNewGame.setOnClickListener(clickListener);
         btnUndo.setOnClickListener(clickListener);
-
     }
 
     private void setPointAndMax() {
-        point = DataGame.getDataGame().getPoint();
-        max = DataGame.getDataGame().getMax();
+        int point = DataGame.getDataGame().getPoint();
+        int max = DataGame.getDataGame().getMax();
         txtPoint.setText("" + point);
         txtMax.setText("" + max);
+
+        if (tempMax < max && max > 200) {
+            showMilestoneDialog(max);
+            tempMax = max;
+        }
+    }
+
+    private void showMilestoneDialog(int MaxPoint) {
+        final Dialog dlg = new Dialog(MainActivity.this);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg.setContentView(R.layout.dialog_achievement_layout);
+        dlg.setCancelable(false);
+
+        Window window = dlg.getWindow();
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttribute = window.getAttributes();
+        windowAttribute.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttribute);
+
+        TextView txtMaxPoint = dlg.findViewById(R.id.txtMaxPointAchievement);
+        Button btnContinue = dlg.findViewById(R.id.btnContinue);
+
+        txtMaxPoint.setText("" + MaxPoint);
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlg.dismiss();
+            }
+        });
+
+        dlg.show();
     }
 }
