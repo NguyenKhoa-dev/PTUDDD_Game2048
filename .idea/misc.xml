@@ -4,11 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
 <<<<<<< HEAD
+        <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/drawable/button_custome.xml" value="0.15462962962962962" />
+=======
+<<<<<<< HEAD
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/layout/item_o_vuong.xml" value="0.12771739130434784" />
         <entry key="..\:/third_Year/AndroidProject/ThiNhom/PTUDDD_Game2048/app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="..\:/third_Year/AndroidProject/ThiNhom/PTUDDD_Game2048/app/src/main/res/layout/item_o_vuong.xml" value="0.3625" />
         <entry key="..\:/third_Year/AndroidProject/ThiNhom/PTUDDD_Game2048/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.37864583333333335" />
 =======
+>>>>>>> 8e4f07c545c8939946832bfd36771f4e445c1113
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/drawable/gb_default.xml" value="0.16111111111111112" />
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/drawable/gb_nen_mau_nau.xml" value="0.16111111111111112" />
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/layout-v21/activity_menu_screen.xml" value="0.1213768115942029" />
@@ -16,8 +20,13 @@
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/layout/activity_menu_screen.xml" value="0.22" />
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/layout/dialog_achievement_layout.xml" value="0.18" />
+<<<<<<< HEAD
+        <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/layout/dialog_game_over_layout.xml" value="0.18" />
+        <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/layout/item_o_vuong.xml" value="0.32471264367816094" />
+=======
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/layout/item_o_vuong.xml" value="0.33" />
 >>>>>>> be0a121a50d2ad97c127a61964c18fce04f71528
+>>>>>>> 8e4f07c545c8939946832bfd36771f4e445c1113
       </map>
     </option>
   </component>

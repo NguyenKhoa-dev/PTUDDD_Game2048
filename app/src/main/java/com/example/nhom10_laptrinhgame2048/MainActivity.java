@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -24,8 +26,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private GridView grdvGamePlay;
-    private TextView txtMax, txtPoint, txtCountDown;
+    private TextView txtHighScore, txtPoint, txtCountDown;
     private OSoAdapter adapter;
+    private ImageButton btnHomeMain;
+
     private CountDownTimer countDownTimer;
     private boolean timerRunning,checkIsTouch=false;
     private long time = 60000; //1 minute
@@ -33,9 +37,11 @@ public class MainActivity extends AppCompatActivity {
     private View.OnTouchListener touchListener;
     private View.OnClickListener clickListener;
     private SQLiteHelper helper;
+
     private float xTouch, yTouch;
     private int tempMax = 0;
     private final int soCot = 4;
+    private int highScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +55,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void initDatabase(){
         helper = new SQLiteHelper(this);
+        helper.openDB();
+        helper.createTable();
     }
 
     private void initControls() {
         grdvGamePlay = findViewById(R.id.gdvGamePlay);
-        txtMax = findViewById(R.id.txtMax);
+        txtHighScore = findViewById(R.id.txtHighScore);
         txtPoint = findViewById(R.id.txtPoint);
-        txtCountDown = findViewById(R.id.txtCountDown);
+        //txtCountDown = findViewById(R.id.txtCountDown);
         btnNewGame = findViewById(R.id.btnNewGame);
         btnUndo = findViewById(R.id.btnUndo);
+        btnHomeMain = findViewById(R.id.btnHomeMain);
+
+        btnHomeMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToMenuScreen();
+            }
+        });
         btnPause = findViewById(R.id.btnPause);
     }
 
@@ -65,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         DataGame.getDataGame().setSize(soCot);
         DataGame.getDataGame().init(MainActivity.this);
         adapter = new OSoAdapter(MainActivity.this, 0, DataGame.getDataGame().getArrSo(), soCot);
+        highScore = helper.getHighestScore("SIZE 4");
         setPointAndMax();
 
         touchListener = new View.OnTouchListener() {
@@ -103,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                         setPointAndMax();
                         if(DataGame.getDataGame().checkGameOver() == false){
                             int point = DataGame.getDataGame().getPoint();
-                            Toast.makeText(MainActivity.this, "Game Over\nScore : "+point, Toast.LENGTH_LONG).show();
+                            showGameOverDialog(point);
                             GameScore gameScore = new GameScore("SIZE "+soCot,point);
                             helper.insert(gameScore);
                         }
@@ -190,7 +207,13 @@ public class MainActivity extends AppCompatActivity {
         int point = DataGame.getDataGame().getPoint();
         int max = DataGame.getDataGame().getMax();
         txtPoint.setText("" + point);
-        txtMax.setText("" + max);
+
+        if (point > highScore) {
+            txtHighScore.setText("" + point);
+        }
+        else {
+            txtHighScore.setText("" + highScore);
+        }
 
         if (tempMax < max && max > 200) {
             showMilestoneDialog(max);
@@ -226,7 +249,56 @@ public class MainActivity extends AppCompatActivity {
                 dlg.dismiss();
             }
         });
-
         dlg.show();
+    }
+
+    private void showGameOverDialog(int point) {
+        final Dialog dlg = new Dialog(MainActivity.this);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg.setContentView(R.layout.dialog_game_over_layout);
+        dlg.setCancelable(false);
+
+        Window window = dlg.getWindow();
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttribute = window.getAttributes();
+        windowAttribute.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttribute);
+
+        TextView txtScoreGameOver = dlg.findViewById(R.id.txtScoreGameOver);
+        ImageButton btnHome = dlg.findViewById(R.id.btnHomeGameOver);
+        ImageButton btnRestart = dlg.findViewById(R.id.btnRestartGameOver);
+
+        txtScoreGameOver.setText("" + point);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToMenuScreen();
+                dlg.dismiss();
+            }
+        });
+
+        btnRestart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataGame.getDataGame().init(MainActivity.this);
+                adapter = new OSoAdapter(MainActivity.this, 0, DataGame.getDataGame().getArrSo(), soCot);
+                adapter.notifyDataSetChanged();
+                grdvGamePlay.setAdapter(adapter);
+                setPointAndMax();
+                dlg.dismiss();
+            }
+        });
+        dlg.show();
+    }
+
+    private void goToMenuScreen() {
+        Intent intent = new Intent(MainActivity.this, MenuScreenActivity.class);
+        startActivity(intent);
     }
 }

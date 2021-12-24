@@ -32,17 +32,6 @@ public class SQLiteHelper extends SQLiteOpenHelper implements Serializable {
         onCreate(db);
     }
 
-    public void openDB()throws SQLException {
-        if(myDB==null)
-            myDB=getWritableDatabase();
-    }
-
-    public void createTable(){
-        String query = "create table if not exists "+tableName+" ( ID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, SCORE INTEGER, created_date date default CURRENT_DATE);";
-        myDB.execSQL(query);
-        myDB.close();
-    }
-
     public void insert(GameScore gs){
         myDB=getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -78,5 +67,16 @@ public class SQLiteHelper extends SQLiteOpenHelper implements Serializable {
         }
         myDB.close();
         return list;
+    }
+
+    public void openDB()throws SQLException {
+        if(myDB==null)
+            myDB=getWritableDatabase();
+    }
+
+    public void createTable(){
+        String query = "create table if not exists "+tableName+" ( ID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, SCORE INTEGER, created_date date default CURRENT_DATE);";
+        myDB.execSQL(query);
+        myDB.close();
     }
 }
