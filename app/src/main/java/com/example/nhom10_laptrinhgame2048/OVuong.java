@@ -70,7 +70,6 @@ public class OVuong extends TextView {
         GradientDrawable drawable = (GradientDrawable)this.getBackground();
         drawable.setColor(DataGame.getDataGame().colorr(so));
         setBackground(drawable);
-
         if (so == 0) {
             setText(" ");
         }

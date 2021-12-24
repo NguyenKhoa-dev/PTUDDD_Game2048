@@ -37,7 +37,6 @@ public class OSoAdapter extends ArrayAdapter<Integer> {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService((Context.LAYOUT_INFLATER_SERVICE));
             convertView = inflater.inflate(R.layout.item_o_vuong, null);
         }
-
         if (arr.size() > 0) {
             OVuong o = convertView.findViewById(R.id.txtOVuong);
             o.TextFormat(arr.get(position), soCot);

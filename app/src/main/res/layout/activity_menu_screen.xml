@@ -86,7 +86,6 @@
             android:textSize="18sp"
             android:layout_marginBottom="20dp"
             tools:targetApi="lollipop" />
-
     </LinearLayout>
 
     <LinearLayout

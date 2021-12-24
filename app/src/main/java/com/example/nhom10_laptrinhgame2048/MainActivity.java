@@ -4,15 +4,16 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,37 +21,49 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
     private GridView grdvGamePlay;
-    private TextView txtMax, txtPoint;
+    private TextView txtHighScore, txtPoint, txtCountDown;
     private OSoAdapter adapter;
-    private Button btnNewGame, btnUndo;
     private ImageButton btnHomeMain;
 
+    private CountDownTimer countDownTimer;
+    private boolean timerRunning,checkIsTouch=false;
+    private long time = 60000; //1 minute
+    private Button btnNewGame, btnUndo,btnPause;
     private View.OnTouchListener touchListener;
     private View.OnClickListener clickListener;
+    private SQLiteHelper helper;
 
     private float xTouch, yTouch;
     private int tempMax = 0;
     private final int soCot = 4;
-    private boolean checkIsTouch = true;
+    private int highScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initDatabase();
         initControls();
         initGame();
         setData();
     }
 
+    private void initDatabase(){
+        helper = new SQLiteHelper(this);
+        helper.openDB();
+        helper.createTable();
+    }
+
     private void initControls() {
         grdvGamePlay = findViewById(R.id.gdvGamePlay);
-        txtMax = findViewById(R.id.txtMax);
+        txtHighScore = findViewById(R.id.txtHighScore);
         txtPoint = findViewById(R.id.txtPoint);
+        //txtCountDown = findViewById(R.id.txtCountDown);
         btnNewGame = findViewById(R.id.btnNewGame);
         btnUndo = findViewById(R.id.btnUndo);
         btnHomeMain = findViewById(R.id.btnHomeMain);
@@ -61,16 +74,17 @@ public class MainActivity extends AppCompatActivity {
                 goToMenuScreen();
             }
         });
+        btnPause = findViewById(R.id.btnPause);
     }
 
     private void initGame() {
         DataGame.getDataGame().setSize(soCot);
         DataGame.getDataGame().init(MainActivity.this);
         adapter = new OSoAdapter(MainActivity.this, 0, DataGame.getDataGame().getArrSo(), soCot);
+        highScore = helper.getHighestScore("SIZE 4");
         setPointAndMax();
 
         touchListener = new View.OnTouchListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -105,7 +119,10 @@ public class MainActivity extends AppCompatActivity {
                         checkIsTouch = true;
                         setPointAndMax();
                         if(DataGame.getDataGame().checkGameOver() == false){
-                            showGameOverDialog(DataGame.getDataGame().getPoint());
+                            int point = DataGame.getDataGame().getPoint();
+                            showGameOverDialog(point);
+                            GameScore gameScore = new GameScore("SIZE "+soCot,point);
+                            helper.insert(gameScore);
                         }
                         break;
                 }
@@ -114,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
         };
 
         clickListener = new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 ArrayList arr = new ArrayList();
@@ -145,6 +161,39 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    private void startStop() {
+        if(timerRunning){
+            startTimer();
+        }else{
+            stopTimer();
+        }
+    }
+
+    private void stopTimer() {
+        countDownTimer.cancel();
+        timerRunning = false;
+    }
+
+    private void startTimer() {
+        countDownTimer = new CountDownTimer(time,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                time = 1;
+                updateTime();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+        timerRunning = true;
+    }
+
+    private void updateTime() {
+        int minute = (int)time/6000;
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private void setData() {
         grdvGamePlay.setNumColumns(soCot);
@@ -157,9 +206,14 @@ public class MainActivity extends AppCompatActivity {
     private void setPointAndMax() {
         int point = DataGame.getDataGame().getPoint();
         int max = DataGame.getDataGame().getMax();
-
         txtPoint.setText("" + point);
-        txtMax.setText("" + max);
+
+        if (point > highScore) {
+            txtHighScore.setText("" + point);
+        }
+        else {
+            txtHighScore.setText("" + highScore);
+        }
 
         if (tempMax < max && max > 200) {
             showMilestoneDialog(max);
@@ -195,7 +249,6 @@ public class MainActivity extends AppCompatActivity {
                 dlg.dismiss();
             }
         });
-
         dlg.show();
     }
 
@@ -241,7 +294,6 @@ public class MainActivity extends AppCompatActivity {
                 dlg.dismiss();
             }
         });
-
         dlg.show();
     }
 

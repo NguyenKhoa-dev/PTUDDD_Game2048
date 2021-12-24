@@ -1,14 +1,16 @@
 <resources>
     <string name="app_name">Game 2048</string>
-    <string name="max">MAX</string>
+    <string name="max">HIGH SCORE</string>
     <string name="point">POINT</string>
     <string name="newGame">New Game</string>
     <string name="undo">Undo</string>
-    <string name="lyName">1911169_Võ Công Lý</string>
+    <string name="pause">Pause</string>
+    <string name="lyName">1911166_Võ Công Lý</string>
     <string name="longName">1911164_Võ Đình Hoàng Long</string>
     <string name="khoaName">1911158_Nguyễn Hoàng Đăng Khoa</string>
     <string name="milestone">New milestone reached!</string>
     <string name="btnContinue">Continue</string>
     <string name="txtgameover">Game Over</string>
     <string name="txtscore">Your score:</string>
+    <string name="txtHighScore">High score: </string>
 </resources>
