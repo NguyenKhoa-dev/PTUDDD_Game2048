@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class MenuScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnClassic;
+    Button btnClassic,btnCustome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +22,18 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
     private void initControls() {
         btnClassic = findViewById(R.id.btnClassic);
         btnClassic.setOnClickListener(this);
+        btnCustome = findViewById(R.id.btnCustome);
+        btnCustome.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == btnClassic.getId()) {
             Intent intent = new Intent(MenuScreenActivity.this, MainActivity.class);
+            intent.putExtra("size",4);
+            startActivity(intent);
+        }else if(view.getId() == btnCustome.getId()){
+            Intent intent = new Intent(MenuScreenActivity.this, PlayCustome.class);
             startActivity(intent);
         }
     }

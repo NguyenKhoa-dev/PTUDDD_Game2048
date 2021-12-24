@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".PlayCustome">
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btn4x4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Classic - 4x4"/>
+        <Button
+            android:id="@+id/btn5x5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Large - 5x5"/>
+        <Button
+            android:id="@+id/btn6x6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wide - 6x6"/>
+        <Button
+            android:id="@+id/btn8x8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Huge - 8x8"/>
+    </LinearLayout>
+</LinearLayout>

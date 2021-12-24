@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/ChuongTrinh_Khoa/PTUDDD_Game2048/app/src/main/res/layout/activity_loading_screen.xml" value="0.25052083333333336" />
+        <entry key="..\:/Android/ChuongTrinh_Khoa/PTUDDD_Game2048/app/src/main/res/layout/activity_menu_screen.xml" value="0.2" />
+        <entry key="..\:/Android/ChuongTrinh_Khoa/PTUDDD_Game2048/app/src/main/res/layout/activity_play_custome.xml" value="0.4" />
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/drawable/button_custome.xml" value="0.15462962962962962" />
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/drawable/gb_default.xml" value="0.16111111111111112" />
         <entry key="..\:/CTK43_HocKy1_Nam03/PhatTrienUngDungDiDong/All Lab Android/Nhom10_LapTrinhGame2048/app/src/main/res/drawable/gb_nen_mau_nau.xml" value="0.16111111111111112" />
