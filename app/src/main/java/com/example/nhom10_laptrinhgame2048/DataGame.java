@@ -72,14 +72,17 @@ public class DataGame {
         return this.matrix;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void saveUndo(int[][] matrix){
-        this.undoMatrix = Arrays.stream(matrix).map(int[]::clone).toArray(int[][]::new);
+        undoMatrix = new int[size][size];
+        for (int i = 0; i < matrix.length; i++) {
+            undoMatrix[i] = Arrays.copyOf(matrix[i],matrix[i].length);
+        }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void getUndo(){
-        this.matrix = Arrays.stream(this.undoMatrix).map(int[]::clone).toArray(int[][]::new);
+        for (int i = 0; i < undoMatrix.length; i++) {
+            matrix[i] = Arrays.copyOf(undoMatrix[i],undoMatrix[i].length);
+        }
         chuyenDoi();
     }
 

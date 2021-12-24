@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class SQLiteHelper extends SQLiteOpenHelper implements Serializable {
     private static String DB_Name = "score_game.db";
     private String tableName = "ScoreBoard";
-    SQLiteDatabase myDB;
+    public SQLiteDatabase myDB;
 
     public SQLiteHelper(@Nullable Context context) {
         super(context, DB_Name, null, 1);
@@ -23,14 +24,23 @@ public class SQLiteHelper extends SQLiteOpenHelper implements Serializable {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "create table if not exists "+tableName+" ( ID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, SCORE INTEGER, created_date date default CURRENT_DATE);";
-        myDB.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists "+tableName);
         onCreate(db);
+    }
+
+    public void openDB()throws SQLException {
+        if(myDB==null)
+            myDB=getWritableDatabase();
+    }
+
+    public void createTable(){
+        String query = "create table if not exists "+tableName+" ( ID INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT, SCORE INTEGER, created_date date default CURRENT_DATE);";
+        myDB.execSQL(query);
+        myDB.close();
     }
 
     public void insert(GameScore gs){
@@ -40,6 +50,10 @@ public class SQLiteHelper extends SQLiteOpenHelper implements Serializable {
         contentValues.put("score",gs.getScore());
         myDB.insert("ScoreBoard",null,contentValues);
         myDB.close();
+    }
+
+    public void updateHighScore(){
+
     }
 
     public int getHighestScore(String name){

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import java.io.Serializable;
 
 public class MenuScreenActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnClassic;
+    Button btnClassic,btnHistory;
     SQLiteHelper helper;
     TextView txtHighScore;
 
@@ -28,12 +28,16 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
 
     private void initDatabase(){
         helper = new SQLiteHelper(this);
+        helper.openDB();
+        helper.createTable();
     }
 
     private void initControls() {
         txtHighScore = findViewById(R.id.txtHighScore);
         btnClassic = findViewById(R.id.btnClassic);
+        btnHistory = findViewById(R.id.btnHistory);
         btnClassic.setOnClickListener(this);
+        btnHistory.setOnClickListener(this);
     }
 
     public void action(){
@@ -45,6 +49,9 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
         if (view.getId() == btnClassic.getId()) {
             GameScore d= new GameScore("s",0);
             Intent intent = new Intent(MenuScreenActivity.this, MainActivity.class);
+            startActivity(intent);
+        }else if(view == btnHistory){
+            Intent intent = new Intent(MenuScreenActivity.this,HistoryActivity.class);
             startActivity(intent);
         }
     }

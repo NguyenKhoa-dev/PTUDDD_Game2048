@@ -26,4 +26,6 @@ public class GameScore implements Serializable {
     public int getScore() {
         return score;
     }
+
+    public Date getDate(){return date_created;}
 }

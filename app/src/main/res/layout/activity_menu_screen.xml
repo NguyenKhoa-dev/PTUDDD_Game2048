@@ -75,11 +75,23 @@
             android:layout_marginBottom="20dp"
             tools:targetApi="lollipop" />
 
+<!--        <Button-->
+<!--            android:id="@+id/btnViewPoint"-->
+<!--            android:layout_width="250dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:text="View Max Point"-->
+<!--            android:backgroundTint="@color/white"-->
+<!--            android:textColor="@color/brown"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textSize="18sp"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            tools:targetApi="lollipop" />-->
+
         <Button
-            android:id="@+id/btnViewPoint"
+            android:id="@+id/btnHistory"
             android:layout_width="250dp"
             android:layout_height="60dp"
-            android:text="View Max Point"
+            android:text="View History"
             android:backgroundTint="@color/white"
             android:textColor="@color/brown"
             android:textAllCaps="false"
@@ -87,16 +99,16 @@
             android:layout_marginBottom="20dp"
             tools:targetApi="lollipop" />
 
-        <TextView
-            android:id="@+id/txtHighScore"
-            android:layout_width="250dp"
-            android:layout_height="60dp"
-            android:text="@string/txtHighScore"
-            android:textSize="20dp"
-            android:gravity="center_vertical"
-            />
-    </LinearLayout>
 
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txtHighScore"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:text="@string/txtHighScore"
+        android:textSize="20dp"
+        android:gravity="center"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

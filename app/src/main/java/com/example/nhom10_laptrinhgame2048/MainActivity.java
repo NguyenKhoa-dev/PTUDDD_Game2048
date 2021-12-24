@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         setPointAndMax();
 
         touchListener = new View.OnTouchListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -115,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
         };
 
         clickListener = new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 ArrayList arr = new ArrayList();
