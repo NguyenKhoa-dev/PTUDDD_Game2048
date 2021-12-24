@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -36,7 +37,21 @@ public class OVuong extends TextView {
         super.setText(text, type);
     }
 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        ViewGroup.MarginLayoutParams margins = ViewGroup.MarginLayoutParams.class.cast(getLayoutParams());
+        margins.topMargin = top;
+        margins.bottomMargin = bottom;
+        margins.leftMargin = left;
+        margins.rightMargin = right;
+        setLayoutParams(margins);
+    }
+
+    @SuppressLint("WrongCall")
     public void TextFormat(int so, int soCot) {
+        int maginSize = (4 * 12) / soCot;
+        onLayout(false, maginSize, maginSize, maginSize, maginSize);
+
         if (so < 100) {
             setTextSize((4 * 40) / soCot);
         }

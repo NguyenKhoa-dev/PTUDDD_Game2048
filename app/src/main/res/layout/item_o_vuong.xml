@@ -9,7 +9,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:id="@+id/txtOVuong"
-        android:layout_margin="5dp"
         android:background="@drawable/gb_nen_mau_nau"/>
 
 </LinearLayout>

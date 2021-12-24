@@ -9,4 +9,6 @@
     <string name="khoaName">1911158_Nguyễn Hoàng Đăng Khoa</string>
     <string name="milestone">New milestone reached!</string>
     <string name="btnContinue">Continue</string>
+    <string name="txtgameover">Game Over</string>
+    <string name="txtscore">Your score:</string>
 </resources>

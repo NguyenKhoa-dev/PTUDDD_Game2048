@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -16,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,13 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtMax, txtPoint;
     private OSoAdapter adapter;
     private Button btnNewGame, btnUndo;
+    private ImageButton btnHomeMain;
 
     private View.OnTouchListener touchListener;
     private View.OnClickListener clickListener;
 
     private float xTouch, yTouch;
     private int tempMax = 0;
-    private final int soCot = 3;
+    private final int soCot = 4;
     private boolean checkIsTouch = true;
 
     @Override
@@ -50,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
         txtPoint = findViewById(R.id.txtPoint);
         btnNewGame = findViewById(R.id.btnNewGame);
         btnUndo = findViewById(R.id.btnUndo);
+        btnHomeMain = findViewById(R.id.btnHomeMain);
+
+        btnHomeMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToMenuScreen();
+            }
+        });
     }
 
     private void initGame() {
@@ -94,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         checkIsTouch = true;
                         setPointAndMax();
                         if(DataGame.getDataGame().checkGameOver() == false){
-                            Toast.makeText(MainActivity.this, "Game Over\nScore : "+DataGame.getDataGame().getPoint(), Toast.LENGTH_LONG).show();
+                            showGameOverDialog(DataGame.getDataGame().getPoint());
                         }
                         break;
                 }
@@ -186,5 +197,56 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dlg.show();
+    }
+
+    private void showGameOverDialog(int point) {
+        final Dialog dlg = new Dialog(MainActivity.this);
+        dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg.setContentView(R.layout.dialog_game_over_layout);
+        dlg.setCancelable(false);
+
+        Window window = dlg.getWindow();
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttribute = window.getAttributes();
+        windowAttribute.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttribute);
+
+        TextView txtScoreGameOver = dlg.findViewById(R.id.txtScoreGameOver);
+        ImageButton btnHome = dlg.findViewById(R.id.btnHomeGameOver);
+        ImageButton btnRestart = dlg.findViewById(R.id.btnRestartGameOver);
+
+        txtScoreGameOver.setText("" + point);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToMenuScreen();
+                dlg.dismiss();
+            }
+        });
+
+        btnRestart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataGame.getDataGame().init(MainActivity.this);
+                adapter = new OSoAdapter(MainActivity.this, 0, DataGame.getDataGame().getArrSo(), soCot);
+                adapter.notifyDataSetChanged();
+                grdvGamePlay.setAdapter(adapter);
+                setPointAndMax();
+                dlg.dismiss();
+            }
+        });
+
+        dlg.show();
+    }
+
+    private void goToMenuScreen() {
+        Intent intent = new Intent(MainActivity.this, MenuScreenActivity.class);
+        startActivity(intent);
     }
 }
