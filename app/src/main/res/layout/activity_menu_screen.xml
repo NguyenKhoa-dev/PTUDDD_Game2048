@@ -75,18 +75,6 @@
             android:layout_marginBottom="20dp"
             tools:targetApi="lollipop" />
 
-<!--        <Button-->
-<!--            android:id="@+id/btnViewPoint"-->
-<!--            android:layout_width="250dp"-->
-<!--            android:layout_height="60dp"-->
-<!--            android:text="View Max Point"-->
-<!--            android:backgroundTint="@color/white"-->
-<!--            android:textColor="@color/brown"-->
-<!--            android:textAllCaps="false"-->
-<!--            android:textSize="18sp"-->
-<!--            android:layout_marginBottom="20dp"-->
-<!--            tools:targetApi="lollipop" />-->
-
         <Button
             android:id="@+id/btnHistory"
             android:layout_width="250dp"
@@ -98,6 +86,24 @@
             android:textSize="18sp"
             android:layout_marginBottom="20dp"
             tools:targetApi="lollipop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/btnVolume"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_volume_up"
+                android:background="@color/brown"
+                android:tint="@color/white"
+                tools:ignore="UseAppTint" />
+        </LinearLayout>
 
     </LinearLayout>
     <LinearLayout
