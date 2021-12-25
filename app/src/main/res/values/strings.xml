@@ -11,4 +11,5 @@
     <string name="btnContinue">Continue</string>
     <string name="txtgameover">Game Over</string>
     <string name="txtscore">Your score:</string>
+
 </resources>

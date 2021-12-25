@@ -5,31 +5,97 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     tools:context=".PlayCustome">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnHomeCustom"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/button_custome"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic__home"
+            android:tint="@color/white" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/gb_default"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="HIGH SCORE"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/txtHighScoreCustom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="2048"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+    <ImageView
+        android:layout_marginTop="50dp"
+        android:id="@+id/imgGame"
+        android:layout_width="200dp"
+        android:layout_gravity="center"
+        android:layout_height="200dp"
+        android:src="@drawable/s4x4"/>
     <LinearLayout
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <Button
-            android:id="@+id/btn4x4"
-            android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_back"/>
+        <TextView
+            android:id="@+id/tvNameGame"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="20dp"
             android:text="Classic - 4x4"/>
-        <Button
-            android:id="@+id/btn5x5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Large - 5x5"/>
-        <Button
-            android:id="@+id/btn6x6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Wide - 6x6"/>
-        <Button
-            android:id="@+id/btn8x8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Huge - 8x8"/>
+        <ImageView
+            android:id="@+id/ivNext"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_next"/>
     </LinearLayout>
+    <Button
+        android:layout_width="200dp"
+        android:layout_gravity="center"
+        android:id="@+id/btnNewGameCustom"
+        android:background="@drawable/gb_default"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content"
+        android:text="NEW GAME"/>
+    <Button
+        android:layout_width="200dp"
+        android:id="@+id/btnContinueCustom"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/gb_default"
+        android:textColor="@color/white"
+        android:layout_margin="20dp"
+        android:text="CONTINUE"/>
 </LinearLayout>
