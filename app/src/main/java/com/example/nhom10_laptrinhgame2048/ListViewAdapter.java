@@ -31,10 +31,8 @@ public class ListViewAdapter extends ArrayAdapter<GameScore> {
         }
         TextView mode = convertView.findViewById(R.id.txtMode);
         TextView score = convertView.findViewById(R.id.txtScore);
-        TextView date = convertView.findViewById(R.id.txtDate);
         mode.setText("Mode: "+arr.get(position).getName());
         score.setText("Score: "+arr.get(position).getScore());
-        date.setText("Date: "+arr.get(position).getDate());
         return convertView;
     }
 }

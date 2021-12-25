@@ -1,11 +1,9 @@
 package com.example.nhom10_laptrinhgame2048;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.MotionEvent;
@@ -20,7 +18,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import java.util.ArrayList;
 
 
@@ -42,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private int tempMax = 0;
     private final int soCot = 4;
     private int highScore;
+    private String matrixString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         helper = new SQLiteHelper(this);
         helper.openDB();
         helper.createTable();
+        helper.createGameTrackingTable();
     }
 
     private void initControls() {
@@ -80,8 +80,20 @@ public class MainActivity extends AppCompatActivity {
     private void initGame() {
         DataGame.getDataGame().setSize(soCot);
         DataGame.getDataGame().init(MainActivity.this);
-        adapter = new OSoAdapter(MainActivity.this, 0, DataGame.getDataGame().getArrSo(), soCot);
-        highScore = helper.getHighestScore("SIZE 4");
+        ArrayList arr = new ArrayList();
+        GameContinue gc =  helper.getTracking(DataGame.getDataGame().NameOfGame(soCot));
+        matrixString = gc.getMatrix();
+        if(matrixString.compareTo("")!=0){
+            DataGame.getDataGame().convertStringToMatrix(matrixString);
+            DataGame.getDataGame().setPoint(gc.getScore());
+            DataGame.getDataGame().setMax(gc.getMax());
+        }else{
+            DataGame.getDataGame().setPoint(0);
+            DataGame.getDataGame().setMax(0);
+        }
+        arr = DataGame.getDataGame().getArrSo();
+        adapter = new OSoAdapter(MainActivity.this, 0, arr, soCot);
+        highScore = helper.getHighestScore(DataGame.getDataGame().NameOfGame(soCot));
         setPointAndMax();
 
         touchListener = new View.OnTouchListener() {
@@ -118,11 +130,15 @@ public class MainActivity extends AppCompatActivity {
                         }
                         checkIsTouch = true;
                         setPointAndMax();
+                        int point = DataGame.getDataGame().getPoint();
+                        int max = DataGame.getDataGame().getMax();
+                        helper.trackGameContinue(new GameContinue(DataGame.getDataGame().NameOfGame(soCot),point,max,DataGame.getDataGame().convertMatrixToString()));
                         if(DataGame.getDataGame().checkGameOver() == false){
-                            int point = DataGame.getDataGame().getPoint();
                             showGameOverDialog(point);
-                            GameScore gameScore = new GameScore("SIZE "+soCot,point);
-                            helper.insert(gameScore);
+                            int maxScore = helper.getHighestScore("SIZE "+soCot);
+                            if(maxScore<point)
+                                helper.updateHighScore(new GameScore("SIZE "+soCot,point));
+                            helper.trackGameContinue(new GameContinue(DataGame.getDataGame().NameOfGame(soCot),0,0,""));
                         }
                         break;
                 }
@@ -137,6 +153,9 @@ public class MainActivity extends AppCompatActivity {
                 if(v==btnNewGame){
                     DataGame.getDataGame().init(MainActivity.this);
                     arr = DataGame.getDataGame().getArrSo();
+                    helper.trackGameContinue(new GameContinue(DataGame.getDataGame().NameOfGame(soCot),0,0,""));
+                    DataGame.getDataGame().setPoint(0);
+                    DataGame.getDataGame().setMax(0);
                 }
                 else if(v==btnUndo&&checkIsTouch){
                     int point = DataGame.getDataGame().getPoint();
@@ -204,8 +223,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setPointAndMax() {
-        int point = DataGame.getDataGame().getPoint();
-        int max = DataGame.getDataGame().getMax();
+        int point,max;
+        point = DataGame.getDataGame().getPoint();
+        max = DataGame.getDataGame().getMax();
         txtPoint.setText("" + point);
 
         if (point > highScore) {
@@ -213,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             txtHighScore.setText("" + highScore);
+            helper.updateHighScore(new GameScore("SIZE "+soCot,highScore));
         }
 
         if (tempMax < max && max > 200) {

@@ -19,11 +19,12 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void initDatabase(){
         helper = new SQLiteHelper(this);
+        helper.createTable();
     }
 
     private void LoadListView(){
         lvScores = findViewById(R.id.lvScores);
-        ListViewAdapter adapter = new ListViewAdapter(HistoryActivity.this,0,helper.getListScore("SIZE 4"));
+        ListViewAdapter adapter = new ListViewAdapter(HistoryActivity.this,0,helper.getListScore());
         lvScores.setAdapter(adapter);
     }
 }

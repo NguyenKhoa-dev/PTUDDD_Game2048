@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.ParcelUuid;
 
 import androidx.annotation.RequiresApi;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,6 +34,10 @@ public class DataGame {
         return dataGame;
     }
 
+    public String NameOfGame(int socot){
+        return "SIZE "+socot;
+    }
+
     public void init(Context context) {
         matrix = new int[size][size];
         undoMatrix = new int[size][size];
@@ -51,8 +57,8 @@ public class DataGame {
 
         taoSo();
         chuyenDoi();
-        point = 0;
-        max = 0;
+//        point = 0;
+//        max = 0;
     }
 
     public ArrayList<Integer> getArrSo() {
@@ -70,6 +76,28 @@ public class DataGame {
 
     public int[][] getMatrix(){
         return this.matrix;
+    }
+
+    public String convertMatrixToString(){
+        String s = "";
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                s+=""+matrix[i][j]+",";
+            }
+            s+="*";
+        }
+        return s;
+    }
+
+    public void convertStringToMatrix(String matrixString) {
+        String arr[] = matrixString.split("\\*");
+        for (int i = 0; i < arr.length; i++) {
+            String[] num = arr[i].split(",");
+            for (int j = 0; j < num.length; j++) {
+                matrix[i][j] = Integer.parseInt(num[j]);
+            }
+        }
+        chuyenDoi();
     }
 
     public void saveUndo(int[][] matrix){
@@ -101,6 +129,8 @@ public class DataGame {
     public void setSize(int size) {
         this.size = size;
     }
+
+    public void setMax(int max){this.max=max;}
 
     public void taoSo() {
         int soO = 0;
