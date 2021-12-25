@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private final int soCot = 4;
     private int highScore;
 
+    MediaPlayer move_sound, achievement_sound, gameOver_sound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         btnPause = findViewById(R.id.btnPause);
+
+        move_sound = MediaPlayer.create(MainActivity.this,R.raw.move_sound);
+        achievement_sound = MediaPlayer.create(MainActivity.this,R.raw.achievement_sound);
+        gameOver_sound = MediaPlayer.create(MainActivity.this, R.raw.game_over_sound);
     }
 
     private void initGame() {
@@ -116,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                                 adapter.notifyDataSetChanged();
                             }
                         }
+                        move_sound.start();
                         checkIsTouch = true;
                         setPointAndMax();
                         if(DataGame.getDataGame().checkGameOver() == false){
@@ -123,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                             showGameOverDialog(point);
                             GameScore gameScore = new GameScore("SIZE "+soCot,point);
                             helper.insert(gameScore);
+                            gameOver_sound.start();
                         }
                         break;
                 }
@@ -218,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
         if (tempMax < max && max > 200) {
             showMilestoneDialog(max);
             tempMax = max;
+            achievement_sound.start();
         }
     }
 
