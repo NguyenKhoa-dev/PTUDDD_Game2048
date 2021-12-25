@@ -67,27 +67,39 @@
             android:id="@+id/btnCustome"
             android:layout_width="250dp"
             android:layout_height="60dp"
-            android:text="Play Custome"
+            android:text="Play Custom"
             android:backgroundTint="@color/white"
             android:textColor="@color/brown"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:layout_marginBottom="20dp"
             tools:targetApi="lollipop" />
+
+<!--        <Button-->
+<!--            android:id="@+id/btnViewPoint"-->
+<!--            android:layout_width="250dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:text="View Max Point"-->
+<!--            android:backgroundTint="@color/white"-->
+<!--            android:textColor="@color/brown"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textSize="18sp"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            tools:targetApi="lollipop" />-->
 
         <Button
-            android:id="@+id/btnViewPoint"
+            android:id="@+id/btnHistory"
             android:layout_width="250dp"
             android:layout_height="60dp"
-            android:text="View Max Point"
+            android:text="View High Score"
             android:backgroundTint="@color/white"
             android:textColor="@color/brown"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:layout_marginBottom="20dp"
             tools:targetApi="lollipop" />
-    </LinearLayout>
 
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -18,11 +18,11 @@
             android:id="@+id/btnHomeMain"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic__home"
-            android:tint="@color/white"
             android:background="@drawable/button_custome"
+            android:padding="10dp"
             android:scaleType="fitCenter"
-            android:padding="10dp"/>
+            android:src="@drawable/ic__home"
+            android:tint="@color/white" />
 
 <!--        <TextView-->
 <!--            android:id="@+id/txtCountDown"-->
