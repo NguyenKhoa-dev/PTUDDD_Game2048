@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private float xTouch, yTouch;
     private int tempMax = 0;
-    private final int soCot = 4;
+    private int soCot = 4;
     private int highScore;
     private String matrixString;
 
@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initGame() {
+        Bundle b = getIntent().getExtras();
+        soCot = b.getInt("size");
         DataGame.getDataGame().setSize(soCot);
         DataGame.getDataGame().init(MainActivity.this);
         ArrayList arr = new ArrayList();
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         int[][] matrix = DataGame.getDataGame().getMatrix();
-                        DataGame.getDataGame().saveUndo(matrix);
+                        //DataGame.getDataGame().saveUndo(matrix);
                         if (Math.abs(motionEvent.getX() - xTouch) > Math.abs(motionEvent.getY() - yTouch)) {
                             if (motionEvent.getX() < xTouch) {
                                 DataGame.getDataGame().vuotTrai();

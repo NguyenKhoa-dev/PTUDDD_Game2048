@@ -9,7 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MenuScreenActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnClassic,btnHistory;
+
+    Button btnClassic,btnHistory, btnCustome;
     SQLiteHelper helper;
     TextView txtHighScore;
 
@@ -37,12 +38,18 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
         }
         btnClassic.setOnClickListener(this);
         btnHistory.setOnClickListener(this);
+        btnCustome = findViewById(R.id.btnCustome);
+        btnCustome.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == btnClassic.getId()) {
             Intent intent = new Intent(MenuScreenActivity.this, MainActivity.class);
+            intent.putExtra("size",4);
+            startActivity(intent);
+        }else if(view.getId() == btnCustome.getId()){
+            Intent intent = new Intent(MenuScreenActivity.this, PlayCustome.class);
             startActivity(intent);
         }else if(view == btnHistory){
             Intent intent = new Intent(MenuScreenActivity.this,HistoryActivity.class);

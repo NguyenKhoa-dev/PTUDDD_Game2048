@@ -6,14 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
         tools:ignore="UselessParent"
         android:paddingTop="10dp"
         android:paddingHorizontal="10dp">
-
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnHomeMain"
             android:layout_width="60dp"
