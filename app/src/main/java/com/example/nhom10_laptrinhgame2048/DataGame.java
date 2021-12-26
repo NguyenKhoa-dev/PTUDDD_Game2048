@@ -59,8 +59,6 @@ public class DataGame {
 
         taoSo();
         chuyenDoi();
-//        point = 0;
-//        max = 0;
     }
 
     public ArrayList<Integer> getArrSo() {

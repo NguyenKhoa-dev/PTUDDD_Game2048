@@ -224,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
         int minute = (int)time/6000;
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void setData() {
         grdvGamePlay.setNumColumns(soCot);
         grdvGamePlay.setAdapter(adapter);
