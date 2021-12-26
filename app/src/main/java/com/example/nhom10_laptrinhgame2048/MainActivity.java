@@ -29,10 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private OSoAdapter adapter;
     private ImageButton btnHomeMain;
 
-    private CountDownTimer countDownTimer;
     private boolean timerRunning,checkIsTouch=false;
-    private long time = 60000; //1 minute
-    private Button btnNewGame, btnUndo,btnPause;
+    private Button btnNewGame, btnUndo;
     private View.OnTouchListener touchListener;
     private View.OnClickListener clickListener;
     private SQLiteHelper helper;
@@ -77,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 goToMenuScreen();
             }
         });
-        btnPause = findViewById(R.id.btnPause);
 
         move_sound = MediaPlayer.create(MainActivity.this,R.raw.move_sound);
         achievement_sound = MediaPlayer.create(MainActivity.this,R.raw.achievement_sound);
@@ -116,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         int[][] matrix = DataGame.getDataGame().getMatrix();
-                        //DataGame.getDataGame().saveUndo(matrix);
+                        DataGame.getDataGame().saveUndo(matrix);
                         if (Math.abs(motionEvent.getX() - xTouch) > Math.abs(motionEvent.getY() - yTouch)) {
                             if (motionEvent.getX() < xTouch) {
                                 DataGame.getDataGame().vuotTrai();
@@ -137,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
                                 adapter.notifyDataSetChanged();
                             }
                         }
-                        move_sound.start();
+                        if (DataGame.getDataGame().sound)
+                            move_sound.start();
                         checkIsTouch = true;
                         setPointAndMax();
                         int point = DataGame.getDataGame().getPoint();
@@ -149,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
                                 helper.updateHighScore(new GameScore("SIZE "+soCot,point));
                             helper.trackGameContinue(new GameContinue(DataGame.getDataGame().NameOfGame(soCot),0,0,""));
                             showGameOverDialog(point);
-                            gameOver_sound.start();
+                            if (DataGame.getDataGame().sound)
+                                gameOver_sound.start();
                         }
                         break;
                 }
@@ -191,39 +190,8 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private void startStop() {
-        if(timerRunning){
-            startTimer();
-        }else{
-            stopTimer();
-        }
-    }
 
-    private void stopTimer() {
-        countDownTimer.cancel();
-        timerRunning = false;
-    }
-
-    private void startTimer() {
-        countDownTimer = new CountDownTimer(time,1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                time = 1;
-                updateTime();
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        }.start();
-        timerRunning = true;
-    }
-
-    private void updateTime() {
-        int minute = (int)time/6000;
-    }
-
+    @SuppressLint("ClickableViewAccessibility")
     private void setData() {
         grdvGamePlay.setNumColumns(soCot);
         grdvGamePlay.setAdapter(adapter);
@@ -249,7 +217,8 @@ public class MainActivity extends AppCompatActivity {
         if (tempMax < max && max > 200) {
             showMilestoneDialog(max);
             tempMax = max;
-            achievement_sound.start();
+            if (DataGame.getDataGame().sound)
+                achievement_sound.start();
         }
     }
 

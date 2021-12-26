@@ -49,7 +49,7 @@ public class PlayCustome extends AppCompatActivity implements View.OnClickListen
         int size = 0;
         switch (count){
             case 0:
-                size =4;
+                size =2;
                 break;
             case 1:
                 size =5;

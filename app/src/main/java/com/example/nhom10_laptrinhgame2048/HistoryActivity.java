@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import java.util.Collections;
+import java.util.List;
+
 public class HistoryActivity extends AppCompatActivity {
     SQLiteHelper helper;
     ListView lvScores;
@@ -24,7 +27,9 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void LoadListView(){
         lvScores = findViewById(R.id.lvScores);
-        ListViewAdapter adapter = new ListViewAdapter(HistoryActivity.this,0,helper.getListScore());
+        List<GameScore> list = helper.getListScore();
+        Collections.sort(list);
+        ListViewAdapter adapter = new ListViewAdapter(HistoryActivity.this,0, list);
         lvScores.setAdapter(adapter);
     }
 }

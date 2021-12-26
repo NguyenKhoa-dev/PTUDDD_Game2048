@@ -27,6 +27,7 @@ public class DataGame {
     private int max;
     public int[] arrImage = {R.drawable.s4x4,R.drawable.s5x5,R.drawable.s6x6,R.drawable.s8x8};
     public String[] arrName = {"Classic - 4x4","Large - 5x5","Wide - 6x6","Huge - 8x8"};
+    public boolean sound = true;
 
     static  {
         dataGame = new DataGame();
