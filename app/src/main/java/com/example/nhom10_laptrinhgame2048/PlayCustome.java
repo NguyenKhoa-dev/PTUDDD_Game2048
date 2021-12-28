@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PlayCustome extends AppCompatActivity implements View.OnClickListener {
     Button btnnewgamecustom,btncontinuecustom;
@@ -27,10 +28,11 @@ public class PlayCustome extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_custome);
         count=0;
-        size=4;
+        size=2;
         initDB();
         init();
     }
+
     private void init(){
         ivback = findViewById(R.id.ivBack);
         ivnext = findViewById(R.id.ivNext);
@@ -56,12 +58,17 @@ public class PlayCustome extends AppCompatActivity implements View.OnClickListen
         }else{
             btncontinuecustom.setVisibility(INVISIBLE);
         }
+        tvnamegame.setText(DataGame.getDataGame().arrName[count]);
+        imggame.setImageResource(DataGame.getDataGame().arrImage[count]);
     }
+
     private void initDB(){
         helper = new SQLiteHelper(this);
         helper.openDB();
+        helper.createTable();
         helper.createGameTrackingTable();
     }
+
     private void getCount(){
         if(count > DataGame.getDataGame().arrImage.length -1){
             count =0;
@@ -73,16 +80,20 @@ public class PlayCustome extends AppCompatActivity implements View.OnClickListen
         int size = 0;
         switch (count){
             case 0:
-                size =2;
+                size = 2;
                 break;
             case 1:
-                size =5;
+                size =4;
                 break;
             case 2:
-                size = 6;
+                size =5;
                 break;
             case 3:
+                size = 6;
+                break;
+            case 4:
                 size =8;
+                break;
         }
         return size;
     }
@@ -110,6 +121,7 @@ public class PlayCustome extends AppCompatActivity implements View.OnClickListen
         tvhighscore.setText(""+helper.getHighestScore("SIZE "+size));
 
         if(view == btncontinuecustom){
+//            size = setSize(count);
             Intent intent = new Intent(PlayCustome.this,MainActivity.class);
             intent.putExtra("size",size);
             startActivity(intent);
