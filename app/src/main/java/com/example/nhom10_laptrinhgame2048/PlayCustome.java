@@ -1,5 +1,8 @@
 package com.example.nhom10_laptrinhgame2048;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,11 +13,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class PlayCustome extends AppCompatActivity implements View.OnClickListener {
-    Button btn4x4,btn5x5,btn6x6,btn8x8,btnnewgamecustom;
+    Button btnnewgamecustom,btncontinuecustom;
     ImageButton btnhomemain;
     ImageView ivback,ivnext,imggame;
-    TextView tvnamegame;
+    TextView tvnamegame,tvhighscore;
+    SQLiteHelper helper;
     int count,size;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +28,7 @@ public class PlayCustome extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_play_custome);
         count=0;
         size=4;
+        initDB();
         init();
     }
     private void init(){
@@ -37,6 +44,23 @@ public class PlayCustome extends AppCompatActivity implements View.OnClickListen
 
         btnnewgamecustom = findViewById(R.id.btnNewGameCustom);
         btnnewgamecustom.setOnClickListener(this);
+
+        btncontinuecustom = findViewById(R.id.btnContinueCustom);
+        btncontinuecustom.setOnClickListener(this);
+
+        tvhighscore = findViewById(R.id.txtHighScoreCustom);
+        tvhighscore.setText(""+helper.getHighestScore("SIZE "+size));
+
+        if(helper.getTracking("SIZE "+size).getMatrix().compareTo("")!=0){
+            btncontinuecustom.setVisibility(VISIBLE);
+        }else{
+            btncontinuecustom.setVisibility(INVISIBLE);
+        }
+    }
+    private void initDB(){
+        helper = new SQLiteHelper(this);
+        helper.openDB();
+        helper.createGameTrackingTable();
     }
     private void getCount(){
         if(count > DataGame.getDataGame().arrImage.length -1){
@@ -64,6 +88,7 @@ public class PlayCustome extends AppCompatActivity implements View.OnClickListen
     }
     @Override
     public void onClick(View view) {
+        ArrayList arr = new ArrayList();
         if(view == ivback){
             count--;
         }
@@ -72,10 +97,25 @@ public class PlayCustome extends AppCompatActivity implements View.OnClickListen
         }
         getCount();
         size = setSize(count);
+
         imggame.setImageResource(DataGame.getDataGame().arrImage[count]);
         tvnamegame.setText(DataGame.getDataGame().arrName[count]);
 
+        if(helper.getTracking("SIZE "+size).getMatrix().compareTo("")!=0){
+            btncontinuecustom.setVisibility(VISIBLE);
+        }else{
+            btncontinuecustom.setVisibility(INVISIBLE);
+        }
+
+        tvhighscore.setText(""+helper.getHighestScore("SIZE "+size));
+
+        if(view == btncontinuecustom){
+            Intent intent = new Intent(PlayCustome.this,MainActivity.class);
+            intent.putExtra("size",size);
+            startActivity(intent);
+        }
         if(view == btnnewgamecustom){
+            helper.trackGameContinue(new GameContinue(DataGame.getDataGame().NameOfGame(size),0,0,""));
             Intent intent = new Intent(PlayCustome.this,MainActivity.class);
             intent.putExtra("size",size);
             startActivity(intent);

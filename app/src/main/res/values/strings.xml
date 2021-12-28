@@ -13,4 +13,5 @@
     <string name="txtgameover">Game Over</string>
     <string name="txtscore">Your score:</string>
     <string name="txtHighScore">High score: </string>
+    <string name="txtViewHighScore">HIGH SCORE</string>
 </resources>
