@@ -39,7 +39,7 @@ public class MenuScreenActivity extends AppCompatActivity implements View.OnClic
         if(helper.getTracking("SIZE 4").getMatrix().compareTo("")!=0){
             btnClassic.setText("Continue");
         }else{
-            btnClassic.setText("NewGame");
+            btnClassic.setText("New Game");
         }
         btnClassic.setOnClickListener(this);
         btnHistory.setOnClickListener(this);
